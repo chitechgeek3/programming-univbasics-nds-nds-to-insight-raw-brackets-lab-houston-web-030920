@@ -1,27 +1,5 @@
-@@ -1,22 +1,37 @@
-$LOAD_PATH.unshift(File.dirname(__FILE__))
+@@ -2,21 +2,19 @@
 require 'directors_database'
-require 'pp'
-
-def get_director_name(nds)
-  director_name_list = []
-  nds.each do |director|
-    director_name_list << director[:name]
-  end
-  director_name_list
-end
-
-def get_director_total(nds)
-  director_total_numbers = []
-  nds.each do |director|
-    total = 0
-    director[:movies].each do |movie_price|
-      total += movie_price[:worldwide_gross]
-      end
-    director_total_numbers << total
-  end
-  director_total_numbers
-end
 
 def directors_totals(nds)
   # Remember, it's always OK to pretty print what you get *in* to make sure
@@ -29,9 +7,6 @@ def directors_totals(nds)
   #
   #
   # The Hash result be full of things like "Jean-Pierre Jeunet" => "222312123123"
-  director_name_list = get_director_name(nds)
-  director_total_numbers = get_director_total(nds)
-
   result = {
   }
   #
@@ -44,10 +19,19 @@ def directors_totals(nds)
   #
   # Be sure to return the result at the end!
   nil
+director_index = 0 
+totals = {}
 
-  director_name_list.each do |director|
-    result[director] = director_total_numbers[director_name_list.index(director)]
-  end
+while director_index < nds.length do 
+  director_name = nds[director_index][:name]
+  totals[director_name] = 0 
+  movie_index = 0 
 
-  result
+  while movie_index < nds[director_index][:movies].length do 
+    totals[director_name] += nds[director_index][:movies][movie_index][:worldwide_gross]
+    movie_index += 1 
+  end 
+  director_index += 1 
+end
+totals
 end
